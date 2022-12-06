@@ -17,12 +17,12 @@ function union(a, b, c) {
     return union(a_b, c);
 }
 
-function read_input(dir = __dirname, filename = 'input.txt') {
+function readInput(dir = __dirname, filename = 'input.txt') {
     const file_path = path.join(dir, filename);
     return fs.readFile(file_path, { encoding: 'utf-8'});
 }
 
-function to_int(str) {
+function toInt(str) {
     return parseInt(str, 10);
 }
 
@@ -39,7 +39,7 @@ function solve(...solutions) {
 
 module.exports = {
     union,
-    read_input,
-    to_int,
+    readInput,
+    toInt,
     solve
 }

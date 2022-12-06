@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const { to_int, read_input, solve } = require('../util');
+const { toInt, readInput, solve } = require('../util');
 
-async function find_full_overlaps() {
-    const input = await read_input(__dirname);
+async function findFullOverlaps() {
+    const input = await readInput(__dirname);
 
     const result = input.split('\n')
         .filter(group => {
-            const [[as, ae], [bs, be]] = parse_group(group)
+            const [[as, ae], [bs, be]] = parseGroup(group)
             return (as <= bs && ae >= be) || (bs <= as && be >= ae);
         })
         .length
@@ -14,12 +14,12 @@ async function find_full_overlaps() {
     return result;
 }
 
-async function find_partial_overlaps() {
-    const input = await read_input(__dirname);
+async function findPartialOverlaps() {
+    const input = await readInput(__dirname);
 
     const result = input.split('\n')
         .filter(group => {
-            const [[as, ae], [bs, be]] = parse_group(group)
+            const [[as, ae], [bs, be]] = parseGroup(group)
             return (as <= be && as >= bs) || (bs <= ae && bs >= as);
         })
         .length
@@ -27,13 +27,13 @@ async function find_partial_overlaps() {
     return result;
 }
 
-function parse_group(group) {
+function parseGroup(group) {
     return group
         .split(',')
-        .map(range => range.split('-').map(to_int));
+        .map(range => range.split('-').map(toInt));
 }
 
 solve(
-    find_full_overlaps(),
-    find_partial_overlaps()
+    findFullOverlaps(),
+    findPartialOverlaps()
 )

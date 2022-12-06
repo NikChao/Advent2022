@@ -1,5 +1,4 @@
-const fs = require('fs/promises');
-const path = require('path');
+const { readInput, solve } = require('../util');
 
 const SHAPE_SCORES = {
     ROCK: 1,
@@ -20,34 +19,32 @@ class PartOne {
         C: 'SCIZZORS',
     }
 
-    async get_modeled_score() {
-        const input = await fs.readFile(path.join(__dirname, 'input.txt'), { encoding: 'utf-8' });
+    async getModeledScore() {
+        const input = await readInput(__dirname);
         const result = input.split('\n')
             .map(game => {
                 const [them, me ] = game.split(' ');
-                return this.get_round_score(them, me);
+                return this.getRoundScore(them, me);
             })
             .reduce((prev, curr) => prev + curr, 0);
-    
-        console.log(result);
     
         return result;
     }
     
-    get_round_score(them, me) {
-        const op_shape = this.LETTER_SHAPES[them];
-        const my_shape = this.LETTER_SHAPES[me];
+    getRoundScore(them, me) {
+        const opShape = this.LETTER_SHAPES[them];
+        const myShape = this.LETTER_SHAPES[me];
     
-        const is_win = this.did_i_win(op_shape, my_shape);
-        const is_draw = op_shape === my_shape;
+        const isWin = this.didIWin(opShape, myShape);
+        const isDraw = opShape === myShape;
     
-        const win_score = is_win ? 6 : is_draw ? 3 : 0;
-        const shape_score = SHAPE_SCORES[my_shape];
+        const winScore = isWin ? 6 : isDraw ? 3 : 0;
+        const shapeScore = SHAPE_SCORES[myShape];
     
-        return win_score + shape_score;
+        return winScore + shapeScore;
     }
     
-    did_i_win(them, me) {
+    didIWin(them, me) {
         return (them === 'ROCK' && me === 'PAPER') ||
          (them === 'PAPER' && me === 'SCIZZORS') ||
          (them === 'SCIZZORS' && me === 'ROCK'); 
@@ -61,26 +58,24 @@ class PartTwo {
         Z: 6, // WIN
     }
 
-    async get_modeled_score() {
-        const input = await fs.readFile(path.join(__dirname, 'input.txt'), { encoding: 'utf-8' });
+    async getModeledScore() {
+        const input = await readInput(__dirname);
         const result = input.split('\n')
             .map(game => {
                 const [them, result ] = game.split(' ');
-                const my_shape = this.get_my_shape(them, result);
+                const myShape = this.getMyShape(them, result);
 
-                const win_score = this.LETTER_WIN_LOSS_DRAW[result];
-                const shape_score = SHAPE_SCORES[my_shape];
+                const winScore = this.LETTER_WIN_LOSS_DRAW[result];
+                const shapeScore = SHAPE_SCORES[myShape];
                 
-                return win_score + shape_score;
+                return winScore + shapeScore;
             })
             .reduce((prev, curr) => prev + curr, 0);
-    
-        console.log(result);
     
         return result;
     }
 
-    get_my_shape(them, result) {
+    getMyShape(them, result) {
         if (them === 'A') {
             return {
                 X: 'SCIZZORS',
@@ -106,3 +101,8 @@ class PartTwo {
         }
     }
 }
+
+solve(
+    new PartOne().getModeledScore(),
+    new PartTwo().getModeledScore(),
+)

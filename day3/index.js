@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { union, read_input, solve } = require('../util')
+const { union, solve, readInput } = require('../util')
 
 const alphabet = 
     [
@@ -7,8 +7,8 @@ const alphabet =
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ];
 
-async function get_total_priority() {
-    const input = await read_input(__dirname);
+async function getTotalPriority() {
+    const input = await readInput(__dirname);
     return input.split('\n')
         .map(rucksack => {
             return _.chunk(
@@ -19,7 +19,7 @@ async function get_total_priority() {
         .map(([a, b]) => {
             let max = 0;
             union(a, b).forEach(entry => {
-                max = Math.max(get_letter_score(entry), max);
+                max = Math.max(getLetterScore(entry), max);
             });
 
             return max
@@ -27,20 +27,20 @@ async function get_total_priority() {
         .reduce((prev, curr) => prev + curr, 0);
 }
 
-async function get_total_badge_priority() {
-    const input = await read_input(__dirname)
+async function getTotalBadgePriority() {
+    const input = await readInput(__dirname)
     const rucksacks = input.split('\n').map(rucksack => new Set(rucksack));
     const groups = _.chunk(rucksacks, 3);
 
     return groups.map(([a, b, c]) => {
         const a_b_c = [...union(a, b, c)];
-        return get_letter_score(a_b_c[0]);
+        return getLetterScore(a_b_c[0]);
     })
     .reduce((prev, curr) => prev + curr, 0);
 }
 
-function get_letter_score(letter) {
+function getLetterScore(letter) {
     return alphabet.indexOf(letter) + 1;
 }
 
-solve(get_total_priority(), get_total_badge_priority())
+solve(getTotalPriority(), getTotalBadgePriority())
