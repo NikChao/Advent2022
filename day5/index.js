@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { read_input } = require('../util');
+const { read_input, solve } = require('../util');
 
 async function get_top_crates() {
     const input = await read_input(__dirname, 'input.txt');
@@ -68,4 +68,7 @@ function parse_crates(raw_crates) {
     return column_crates;
 }
 
-get_top_crates().then(console.log);
+solve(
+    get_top_crates(),
+    get_top_crates_9001(),
+)

@@ -26,8 +26,20 @@ function to_int(str) {
     return parseInt(str, 10);
 }
 
+function solve(...solutions) {
+    return Promise.all(solutions).then(results => {
+        const table = {};
+        results.forEach((v, i) => {
+            table[`part ${i + 1}`] = v
+        })
+        return table;
+    })
+    .then(console.table);
+}
+
 module.exports = {
     union,
     read_input,
-    to_int
+    to_int,
+    solve
 }

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { to_int, read_input } = require('../util');
+const { to_int, read_input, solve } = require('../util');
 
 async function find_full_overlaps() {
     const input = await read_input(__dirname);
@@ -10,8 +10,6 @@ async function find_full_overlaps() {
             return (as <= bs && ae >= be) || (bs <= as && be >= ae);
         })
         .length
-
-    console.log(result);
 
     return result;
 }
@@ -26,8 +24,6 @@ async function find_partial_overlaps() {
         })
         .length
 
-    console.log(result);
-
     return result;
 }
 
@@ -36,3 +32,8 @@ function parse_group(group) {
         .split(',')
         .map(range => range.split('-').map(to_int));
 }
+
+solve(
+    find_full_overlaps(),
+    find_partial_overlaps()
+)
